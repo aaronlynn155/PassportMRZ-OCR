@@ -1,9 +1,8 @@
 import argparse
 import io
+import os
 
 from google.cloud import vision
-
-# Needs GOOGLE_APPLICATION_CREDENTIALS to be set to the API key file before running
 
 def detect_document(filein):
     """Detects document features in an image."""
@@ -58,12 +57,17 @@ def to_file(text_array, fileout):
     print('Wrote results to \"' + filename + '\"')
     file.close()
 
+def setKey(path):
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = path
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('detect_file', help='The image for text detection.')
     parser.add_argument('-out_file', help='Optional output file', default=0)
     args = parser.parse_args()
+
+    # Argument should be the path to the API key .json file
+    setKey('ocr.json')
 
     parser = argparse.ArgumentParser()
     text = detect_document(args.detect_file)
