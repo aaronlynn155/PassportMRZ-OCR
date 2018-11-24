@@ -14,7 +14,7 @@ noFlyExpireyDates = ["180112","170314","160530","160126"] #85/01/19 Format
 noFlyPersonalCodes = ["111111111111111","22222222222222","3333333333333333"]
 
 def confidence_flip_flop():
-    #Method to flip characters if they have a low confidence value
+
     resultFile = open("result_text.txt ", "r")
     confidenceFile = open("result_confidence.txt","r")
     resultFileDataList = resultFile.readlines()
@@ -48,6 +48,18 @@ def confidence_flip_flop():
                     break
                 if tempChar == 'A':
                     tempCharList[counter] = '4'
+                    break
+                if tempChar == '0':
+                    tempCharList[counter] = 'O'
+                    break
+                if tempChar == 'O':
+                    tempCharList[counter] = '0'
+                    break
+                if tempChar == '8':
+                    tempCharList[counter] = 'B'
+                    break
+                if tempChar == 'B':
+                    tempCharList[counter] = '8'
                     break
 
         counter += 1
