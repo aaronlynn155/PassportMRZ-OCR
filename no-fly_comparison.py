@@ -3,6 +3,9 @@
 #
 import io
 
+#this will import PyQT5 and provide us the needed materials for a popup
+from PyQt5.QtWidgets import QApplication, QLabel
+
 #TABLE IS ORGANIZED IN COLUMN
 noFlyFNames = ["JOSEPH","GREG","GEORGE","NAMA"]
 noFlyLNames = ["STALIN","POPOVICH","ClOONEY","LENGKAP"]
@@ -160,7 +163,12 @@ def comparison_Alg():
         y += 1
 
     if matches >= 5 and matchIndex.count(matchIndex[0]) == len(matchIndex):
-        print(matches, "matches found, Close Match detected. Check Passport Before Alerting Security.")
+		#this is to provide a basic popup should the GUI itself not function properly
+		app = QApplication([])
+		label = QLabel("Close matches have been found, Check the passport before alerting security.\nTotal amount of matches: ", matches)
+		label.show()
+		app.exec_()
+		print(matches, "matches found, Close Match detected. Check Passport Before Alerting Security.")
 
 
 if __name__ == '__main__':
