@@ -1,7 +1,10 @@
 #stores lists of users on no-fly lists, including several arguments
 #preforms comparison algorithm
-#
 import io
+
+#This imports PyQT into the program and provides us with what we need
+import sys
+from PyQt5.QtWidgets import QApplication, QLabel
 
 #TABLE IS ORGANIZED IN COLUMN
 noFlyFNames = ["JOSEPH","GREG","GEORGE","NAMA"]
@@ -89,8 +92,17 @@ def comparison_Alg():
         y += 1
 
     if matches >= 5:
+        app = QApplication([])
+        label = QLabel("Matches: ", matches, "Close Match detected. Check Passport Before Alerting Security.")
+        label.show()
+        app.exec()
         print(matches, "matches found, Close Match detected. Check Passport Before Alerting Security.")
-
+    else:
+        app = QApplication([])
+        label = QLabel("No matches found")
+        label.show()
+        app.exec()
+        print("No matches found.")
 
 if __name__ == '__main__':
     comparison_Alg()
