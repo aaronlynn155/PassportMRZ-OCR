@@ -60,7 +60,7 @@ def to_file(text_array, fileout):
     for word in text_array:
         for character in word:
             file_text.write(character[0])
-            file_conf.write(str(character[1]) + ' ')
+            file_conf.write(str(character[1]) + ' ' + '\n')
         file_text.write('\n')
         file_conf.write('\n')
 
