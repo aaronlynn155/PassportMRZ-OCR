@@ -1,0 +1,3 @@
+# SoftwareEngineeringGroup9
+This project was created for Software Engineering in the fall 2018.
+Execution of the program requires the following pip installs...
