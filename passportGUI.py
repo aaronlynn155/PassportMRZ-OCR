@@ -3,9 +3,15 @@ import sys
 
 #import QT
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QHBoxLayout, QVBoxLayout, QGroupBox, QDialog
-from PyQt5.QtWidgets import QPushButton, QFileDialog, QImage
+from PyQt5.QtWidgets import QPushButton, QFileDialog
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import pyqtSlot
+
+#this is a test, it produces an image for us from the pillow library
+from PIL import Image
+
+#this is to import the ocr-doc_read script, allows us to use the methods in it
+#import ocrdoc_read
 
 class App(QDialog):
     def __init__(self):
@@ -35,15 +41,8 @@ class App(QDialog):
         layout.setColumnStretch(1, 4)
         layout.setColumnStretch(2, 4)
 
-		resultingDoc = None
-
-        # set an image to the label, upper left. currently not working, commented out for testing purposes
-	'''
-        picture = QLabel()
-        pixmap = QPixmap("testPic")
-        pixmap = pixmap.scaledToWidth(200)
-        picture.setPixmap(pixmap)
-	'''
+        #below is a holding variable for the document name
+        resultingDoc = None
 
         # set a set of text to be overwritten with "Match" or "No Matches", lower left
         inputResults = "This is the beginning of\nthe MRZ screen. Please\nscan a photo."
@@ -61,7 +60,6 @@ class App(QDialog):
         matches = QLabel(totalMatches)
 
         # this places the above creations into a grid to be displayed
-        #layout.addWidget(picture,0,0)									Commented out for testing puproses. Displays picture.
         layout.addWidget(results,1,0)
         layout.addWidget(selectFile,1,1)
         layout.addWidget(matches,0,2)
@@ -77,8 +75,16 @@ class App(QDialog):
         fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "",
                                                   "All Files (*);;Python Files (*.py)", options=options)
         if fileName:
+            name = fileName
+            image = Image.open(fileName)
+            image.show()
             print(fileName)
-
+    """
+    @pyqtSlot()
+    def readAndCompare(self):
+        ocrdoc_read.detect_document(name)
+        ocrdoc_read.to_file()                  #what fileout? what textarray?
+    """
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = App()
