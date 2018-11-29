@@ -1,17 +1,21 @@
-#import sys
+# import sys and os
 import sys
+import os
 
-#import QT
+# import QT5
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QHBoxLayout, QVBoxLayout, QGroupBox, QDialog
 from PyQt5.QtWidgets import QPushButton, QFileDialog
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import pyqtSlot
 
-#this is a test, it produces an image for us from the pillow library
+# this is a test, it produces an image for us from the pillow library
 from PIL import Image
 
-#this is to import the ocr-doc_read script, allows us to use the methods in it
-#import ocrdoc_read
+# this is to import the ocr-doc_read script, allows us to use the methods in it
+from ocrdoc_read import detect_document, to_file, set_key
+
+# this is to import the nofly comparison script, allows us to use the methods in it
+from nofly_comparison import *
 
 class App(QDialog):
     def __init__(self):
@@ -41,15 +45,13 @@ class App(QDialog):
         layout.setColumnStretch(1, 4)
         layout.setColumnStretch(2, 4)
 
-        #below is a holding variable for the document name
-        resultingDoc = None
-
         # set a set of text to be overwritten with "Match" or "No Matches", lower left
         inputResults = "This is the beginning of\nthe MRZ screen. Please\nscan a photo."
         results = QLabel(inputResults)
 
         # button to call the comparison with the selected file, lower right
         scan = QPushButton("Scan")
+        scan.clicked.connect(self.readAndCompare)
 
         # selecting a file, most likely a button, function used?, placed in lower middle
         selectFile = QPushButton("Select File")
@@ -78,13 +80,18 @@ class App(QDialog):
             name = fileName
             image = Image.open(fileName)
             image.show()
-            print(fileName)
-    """
+            print(name)
+            set_key('ocr.json')
+            wordArray = detect_document(name)
+            to_file(wordArray,0)
+
+    # this provides functionality to the scan button, activates comparison algorithm
     @pyqtSlot()
     def readAndCompare(self):
-        ocrdoc_read.detect_document(name)
-        ocrdoc_read.to_file()                  #what fileout? what textarray?
-    """
+        confidence_flip_flop()
+        comparison_Alg()
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = App()

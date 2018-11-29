@@ -164,11 +164,13 @@ def comparison_Alg():
 
     if matches >= 5 and matchIndex.count(matchIndex[0]) == len(matchIndex):
         #this is to provide a basic popup should the GUI itself not function properly
+        """
         app = QApplication([])
         label = QLabel("Close matches have been found, Check the passport before alerting security.\nTotal amount of "
                        "matches: ", matches)
         label.show()
         app.exec_()
+        """
         print(matches, "matches found, Close Match detected. Check Passport Before Alerting Security.")
 
 if __name__ == '__main__':
