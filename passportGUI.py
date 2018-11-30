@@ -4,7 +4,7 @@ import os
 
 # import QT5
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QHBoxLayout, QVBoxLayout, QGroupBox, QDialog
-from PyQt5.QtWidgets import QPushButton, QFileDialog
+from PyQt5.QtWidgets import QPushButton, QFileDialog, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import pyqtSlot
 
@@ -40,7 +40,7 @@ class App(QDialog):
 
     def createGridLayout(self):
         # instantiation of the grid layout and its components
-        self.horizontalGroupBox = QGroupBox("Grid")
+        self.horizontalGroupBox = QGroupBox("")
         layout = QGridLayout()
         layout.setColumnStretch(1, 4)
         layout.setColumnStretch(2, 4)
@@ -81,7 +81,7 @@ class App(QDialog):
             image = Image.open(fileName)
             image.show()
             print(name)
-            set_key('ocr.json')
+            set_key('Software_Engineering_Team7_OCR-c578ecae6914.json')
             wordArray = detect_document(name)
             to_file(wordArray,0)
 
@@ -89,7 +89,12 @@ class App(QDialog):
     @pyqtSlot()
     def readAndCompare(self):
         confidence_flip_flop()
-        comparison_Alg()
+        matches = comparison_Alg()
+        if matches >= 1:
+            QMessageBox.warning(self, "Results", "Multiple  close matches found! Check the passport before "
+                                                 "alerting security.")
+        else:
+            QMessageBox.information(self, "Results", "No close matches found!")
 
 
 if __name__ == '__main__':
